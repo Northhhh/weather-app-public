@@ -1,0 +1,378 @@
+header {
+    @include flex($align: center, $just: center);
+
+    @media only screen and (max-width: 767px) {
+        .navbar-wrapper {
+            width: 100%;
+            position: sticky;
+            padding: 5px;
+            top: 0;
+            left: 0;
+            @include flex($align: center, $just: flex-end);
+            height: 50px;
+            z-index: 3;
+
+            .input-placeholder {
+                display: none;
+            }
+
+            .header-icon {
+                margin-right: auto;
+            }
+
+            .navbar-menu-buttons {
+                @include flex();
+                max-width: 100px;
+                overflow: hidden;
+                transition: max-width 1s;
+            }
+
+            .x-button {
+                width: 0px;
+                margin: 0px;
+
+                &::before,
+                &::after {
+                    width: 0px;
+                    transition: transform 1s width .5s;
+                }
+            }
+
+            &.dd-opened {
+                .navbar-menu-buttons {
+                    max-width: 0px;
+                }
+
+                .x-button {
+                    width: 30px;
+                    margin: 5px;
+
+                    &::before,
+                    &::after {
+                        width: 2px;
+                    }
+
+                    &::before {
+
+                        transform: rotate(45deg);
+                    }
+
+                    &::after {
+
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+        }
+
+        .nav-icon {
+            font-size: 30px;
+            padding: 5px;
+        }
+
+        .search-bar {
+            display: none;
+        }
+
+        .button-close-menu {
+            justify-self: end;
+        }
+
+        .menu-search-wrapper {
+            overflow: hidden;
+            transition: max-height 1.5s;
+            padding: 0px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-template-rows: auto 1fr;
+            grid-template-areas: "a a"
+                "b c";
+
+            h5 {
+                grid-area: a;
+            }
+
+            input {
+                grid-area: b;
+            }
+
+            button {
+                grid-area: c;
+                font-size: 15px;
+
+                i {
+                    padding: 3px;
+                }
+            }
+        }
+
+        .menu-dd {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            &.dd-opened {
+                padding-top: 60px;
+                box-sizing: border-box;
+                @include flex(column);
+                width: 100%; 
+                height: 100%;
+                overflow-y: hidden;
+
+                .search-bar {
+                    display: block;
+                    width: auto;
+                    padding: 3px 5px;
+                    text-align: left;
+                    font-size: 1.1em;
+                }
+
+                .menu-search-wrapper {
+                    padding: 10px;
+                    height: auto;
+                }
+
+                .menu-dd-wrapper
+                {
+                    @include flex(column);
+                }
+            }
+
+            .menu-dd-wrapper {
+                padding: 7px;
+                flex: 1;
+                overflow: hidden;
+            }
+
+            .menu-dd-history-wrapper,
+            .menu-dd-fav-wrapper,
+            .menu-dd-location-wrapper,
+            .menu-dd-sett-wrapper {
+                @include flex($dir: column, $just: flex-start);
+                flex: 1;
+                min-width: 0;
+                overflow: hidden;
+            }
+        }
+    }
+
+    @media only screen and (min-width: 768px) {
+        margin-bottom: 25px;
+
+        input {
+            width: 20vw;
+            font-size: 1.5em;
+            line-height: 180%;
+            min-width: 100%;
+        }
+
+        .navbar-wrapper {
+            @include flex($align: center);
+        }
+
+        .menu-dd {
+            top: 30px;
+            left: 50%;
+            width: auto;
+            transform: translate(-50%);
+
+            &.dd-opened {
+                padding: 20px;
+                border-radius: 20px;
+
+                .menu-dd-wrapper
+                {
+                    display: block;
+                }
+            }
+
+            .menu-dd-navbar {
+                margin: 10px 0;
+            }
+
+            .menu-dd-box {
+                max-height: 30vh;
+            }
+
+            .menu-dd-wrapper {
+                bottom: -100%;
+                display: block;
+            }
+        }
+
+        .menu-dd-item {
+            &::after {
+
+                transform: scale(0);
+            }
+
+            &:hover,
+            &:focus {
+                &::after {
+                    transform: scale(1);
+                }
+            }
+        }
+
+        .menu-dd-fav-wrapper {
+            @include flex($dir: column, $just: center);
+        }
+
+        .button-settings,
+        .header-icon
+        {
+            width: 40px;
+            height: 40px;
+        }
+
+        .header-icon
+        {
+            line-height: 40px;
+            text-align: center;
+        }
+    }
+
+    .input-placeholder {
+        width: 20vw;
+        height: 5px;
+        font-size: 1.5em;
+        line-height: 180%;
+        display: block;
+    }
+
+    h1 {
+        padding: 20px;
+    }
+
+    .menu-dd {
+        position: absolute;
+        transition: background-color .5s, padding .5s, border-radius .5s;
+        z-index: 2;
+
+        .menu-dd-wrapper {
+            display: none;
+
+            .menu-dd-navbar {
+                width: 100%;
+                @include flex();
+
+                label {
+                    font-size: 130%;
+                    padding: 15px;
+                    position: relative;
+                    transition: color .5s;
+
+                    &::after {
+                        content: '';
+                        width: 100%;
+                        height: 2px;
+                        transform: scaleX(0);
+                        transform-origin: center center;
+                        transition: transform .25s;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                    }
+                }
+
+                input[type="radio"]:checked+label::after {
+                    transform: scaleX(1);
+                }
+
+                .button-reset-input {
+                    margin-left: auto;
+                }
+            }
+
+            .menu-dd-item {
+                display: grid;
+                grid-template-columns: 3fr auto;
+                position: relative;
+
+                i {
+                    align-self: center;
+                    justify-self: center;
+                }
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    height: 100%;
+                    width: 4px;
+                    transform-origin: top;
+                    transition: transform .25s;
+                    background-size: 200%;
+                    background-position: 50%;
+                }
+
+                .menu-dd-item-city {
+                    @include font(100%, 500);
+                    display: grid;
+                    grid-template-columns: 25% 1fr;
+                    grid-template-rows: repeat(2, 1fr);
+                    background: none;
+                    border: none;
+                    transition: background-color .5s;
+                    padding: 10px;
+
+                    i {
+                        grid-area: 1 / 1 / 3 / 2;
+                        @include font(150%);
+                    }
+
+                    p,
+                    h5 {
+                        align-self: center;
+                        justify-self: left;
+                        text-align: left;
+                        width: 100%;
+                        width: auto;
+                    }
+
+                    p {
+                        font-weight: 600;
+                    }
+                }
+
+                .sld-city-select {
+                    grid-area: 1 / 1 / 3 / 3;
+                }
+
+                .menu-dd-item-remove {
+                    @include font(120%, 600);
+                    padding: 20px;
+                    background: none;
+                    border: none;
+                    transition: background-color .5s;
+                }
+            }
+
+            .menu-dd-desc {
+                padding: 10px 0;
+
+                p {
+                    display: inline-block;
+                    @include font(110%, 500);
+                }
+            }
+
+            .menu-dd-fav-wrapper,
+            .menu-dd-history-wrapper {
+                h5 {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+
+            .menu-dd-box {
+                @include scrollbar-vertical();
+                overflow-y: auto;
+            }
+        }
+    }
+
+    select {
+        margin: 8px 0;
+    }
+}

@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+@font-face {
+  font-family: 'bootstrap-icons';
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/fonts/bootstrap-icons.woff") format("woff"), url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/fonts/bootstrap-icons.woff2") format("woff2");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Overpass', sans-serif;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.page-load {
+  position: relative;
+  background: radial-gradient(circle, white 0%, #dbdbdb 60%);
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
+
+.page-load div {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: auto;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  position: absolute;
+  color: black;
+  text-align: center;
+}
+
+.page-load div h2 {
+  margin: 20px 0;
+}
+
+.page-load div a {
+  color: black;
+}
+
+main {
+  display: none;
+}
+/*# sourceMappingURL=load.css.map */

@@ -1,0 +1,171 @@
+.daily-forecast {
+    @media only screen and (max-width: 768px) {
+        select {
+            align-self: flex-start;
+        }
+
+        .df-data-type-wrapper {
+            margin: 10px 0;
+        }
+    }
+
+    @media only screen and (min-width: 768px) {
+        .card-header {
+            @include flex($just: space-between);
+            padding: 0 20px;
+        }
+
+        .df-chart-container {
+            position: relative;
+        }
+
+        select {
+            justify-self: flex-end;
+            align-self: center;
+
+            margin-right: 5px;
+        }
+
+        .df-data-type-wrapper {
+            margin: 8px 0 8px auto;
+            align-self: flex-end;
+        }
+    }
+
+    .df-wrapper
+    {
+        @include flex($dir: column);
+        @include scrollbar-vertical();
+        overflow-y: auto;
+
+        .df-data-type-wrapper {
+            position: relative;
+    
+            .df-chart-tooltip-hover {
+                background: none;
+                border: none;
+                width: 30px;
+                height: 30px;
+    
+                &+.df-chart-desc {
+                    display: block;
+                    position: absolute;
+                    overflow: hidden;
+                    width: 0;
+                    height: 0;
+                    max-width: 50vw;
+                    bottom: -150%;
+                    right: 0;
+                    right: 0;
+                    z-index: 2;
+                    opacity: 0;
+                    transition: opacity .25s;
+                }
+    
+                &:hover {
+                    &+.df-chart-desc {
+                        opacity: 1;
+                        height: auto;
+                        width: max-content;
+                        padding: 10px;
+                        border-radius: 10px;
+                    }
+                }
+            }
+        }
+    }
+
+    .df-chart-container {
+        display: grid;
+        position: relative;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: 30vh 1fr;
+        height: auto;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        grid-template-areas:
+            "scale chart"
+            ". chart";
+        padding: 20px;
+
+        .df-chart-scale {
+            @include flex($dir: column, $align: flex-end, $just: space-between);
+            width: max-content;
+            padding-right: 5px;
+            font-size: 80%;
+            grid-area: scale;
+        }
+
+        .df-chart-wrapper {
+            @include scrollbar-horizontal($height: 5px);
+            grid-area: chart;
+            overflow-x: auto;
+            overflow-y: hidden;
+            height: max-content;
+            display: grid;
+            grid-template-rows: 30vh 1fr;
+            grid-template-areas: "columns"
+                "data";
+
+            .df-chart-columns {
+                display: grid;
+                grid-template-columns: repeat(24, minmax(0, 1fr));
+                grid-area: columns;
+            }
+
+            .df-chart-data {
+                display: grid;
+                width: max-content;
+                height: max-content;
+                grid-template-columns: repeat(24, minmax(0, 1fr));
+                grid-area: data;
+            }
+
+            .df-chart-col {
+                width: 50%;
+                height: 30vh;
+                background-clip: content-box;
+                transition: max-height .5s, background-color .25s;
+                align-self: flex-end;
+                justify-self: center;
+
+                &::after {
+                    content: attr(chart-time) ': ' attr(chart-value);
+                    position: absolute;
+                    overflow: hidden;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 0;
+                    height: 0;
+                    opacity: 0;
+                    transition: opacity .25s;
+                }
+
+                &:hover::after {
+                    opacity: 1;
+                    width: max-content;
+                    height: auto;
+                    padding: 5px 8px;
+                    border-radius: 5px;
+                }
+            }
+
+            .df-hourly-weather-info {
+                @include flex($dir: column, $align: center);
+                text-align: center;
+                padding: 0 3px;
+                font-size: 70%;
+                margin-top: 5px;
+
+                & * {
+                    margin-bottom: 2px;
+                }
+
+                .df-weather-icon {
+                    font-size: 1.5em;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,20 @@
+@keyframes rotate-once
+{
+    0% {transform: rotate(0deg);}
+    20% {transform: rotate(-45deg);}
+    100% {transform: rotate(-360deg);}
+}
+
+@keyframes arrow-right
+{
+    0% { transform: translateX(0px);}
+    50% { transform: translateX(5px);}
+    100% { transform: translateX(0px);}
+}
+
+@keyframes arrow-left
+{
+    0% { transform: translateX(0px);}
+    50% { transform: translateX(-5px);}
+    100% { transform: translateX(0px);}
+}

@@ -1,0 +1,36 @@
+main 
+{
+    @include flex(column);
+    transition: background-color .5s, color .5s;
+    z-index: 1;
+    
+    .tooltip
+    {
+        transition: color .25s;
+        text-align: center;
+    }
+
+    @media only screen and(min-width: 768px)
+    {
+        width: max-content;
+        height: auto;
+        max-width: 80%;
+        max-height: 80%;
+        border-radius: 25px;
+        padding: 30px;
+        position: absolute;
+        left: 50%;
+        margin-top: 5vh;
+        transform: translate(-50%);
+    }
+
+    @media only screen and (max-width: 768px) {
+        width: 100%;
+        height: auto;
+
+        .tooltip
+        {
+            padding: 30px 10px;
+        }
+    }
+}

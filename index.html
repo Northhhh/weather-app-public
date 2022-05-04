@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Weather app by Northhhh, forecast for now, 24-hours and 7-days">
+    <meta name="keywords" content="Weather, app, forecast, 7-day forecast, 24-hour forecast">
+    <meta name="author" content="Kacper Brzycki">
+    <meta name="robots">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="stylesheet" href="./media/fonts/flag-icons-main/css/flag-icons.min.css" media="print"
+        onload="this.media='all'">
+    <link rel="stylesheet preload" href="./css/load.css" as="style">
+    <link rel="stylesheet" href="./css/min/style.min.css" media="print" onload="this.media='all'">
+    <link rel="icon" href="./media/pictures/cloud-sun-fill.svg">
+    <title>Weather App</title>
+</head>
+
+<body class="no-anim">
+    <div class="page-load">
+        <div>
+            <h2><i class="bi bi-cloud-fill"></i> Weather app</h2>
+            <p>Page is loading, please wait!</p>
+            <h4 class="col-prim"><span>Coded by <i class="bi bi-github col-prim"></i>
+                    <a href="https://github.com/Northhhh/weather-app" target="_blank"
+                        class="col-sec">Northhhh</a></span>
+            </h4>
+        </div>
+    </div>
+    <main class="theme-night">
+        <header>
+            <div class="menu-dd">
+                <div class="menu-search-wrapper">
+                    <h5 class="col-sec mobile-visible" tkey-gen="menu-input-mobile-tooltip">Enter city name here</h5>
+                    <input type="text" placeholder="Enter city name here" class="search-bar col-prim">
+                    <button class="button-reset-input nav-button nav-icon mobile-visible"
+                        tkey-aria="menu-reset-input"><i class="bi bi-arrow-counterclockwise clear-icon"></i></button>
+                </div>
+                <div class="menu-dd-wrapper box-hidden">
+                    <div class="menu-dd-navbar menu-dd-hideable">
+                        <input type="radio" class="radio-menu-dd-nav" name="radio-menu-dd-nav"
+                            value="menu-dd-history-wrapper" id="radio-menu-dd-nav1" checked>
+                        <label for="radio-menu-dd-nav1" class="bi bi-search" tkey-aria="menu-hist-radio"
+                            aria-hidden="true"></label>
+                        <input type="radio" class="radio-menu-dd-nav" name="radio-menu-dd-nav"
+                            value="menu-dd-fav-wrapper" id="radio-menu-dd-nav2">
+                        <label for="radio-menu-dd-nav2" class="bi bi-search-heart" tkey-aria="menu-fav-radio"
+                            aria-hidden="true"></label>
+                        <input type="radio" class="radio-menu-dd-nav" name="radio-menu-dd-nav"
+                            value="menu-dd-sett-wrapper" id="radio-menu-dd-nav3">
+                        <label for="radio-menu-dd-nav3" class="bi bi-gear" tkey-aria="menu-sett-radio"
+                            aria-hidden="true"></label>
+                        <button class="button-reset-input nav-button nav-icon mobile-hidden"
+                            tkey-aria="menu-reset-input"><i
+                                class="bi bi-arrow-counterclockwise clear-icon"></i></button>
+                    </div>
+                    <div class="menu-dd-history-wrapper menu-dd-hideable">
+                        <h5 class="col-prim menu-dd-desc shd-desc" tkey-gen="menu-hist-desc"></h5>
+                        <div class="shd-wrapper menu-dd-box"></div>
+                    </div>
+                    <div class="menu-dd-fav-wrapper menu-dd-hideable box-hidden">
+                        <button class="button-sfd-add-fav button-bordered col-prim"><i class="bi bi-heart"></i><span
+                                tkey-gen="menu-fav-button">Add<p class="sfd-name"></p>to favourites
+                                list</span></button>
+                        <h5 class="col-prim menu-dd-desc sfd-desc"><span tkey-gen="menu-fav-desc">
+                                <p class="sfd-amount"></p> favourite location:
+                            </span>
+                        </h5>
+                        <div class="sfd-wrapper menu-dd-box"></div>
+                    </div>
+                    <div class="menu-dd-location-wrapper menu-dd-box menu-dd-hideable box-hidden">
+                        <h5 class="col-sec menu-dd-desc" tkey-gen="menu-loc-desc"></h5>
+                        <div class="sld-wrapper"></div>
+                    </div>
+                    <div class="menu-dd-sett-wrapper menu-dd-hideable box-hidden">
+                        <div class="menu-dd-box">
+                            <h5 class="col-prim" tkey-gen="menu-sett-lang-desc"></h5>
+                            <select name="select-lang" class="menu-dd-nohide" tkey-aria="menu-sett-lang-select">
+                                <option value="en" tkey-gen="menu-sett-lang-english"><span class="fi fi-pl"></span>
+                                    English
+                                </option>
+                                <option value="pl" tkey-gen="menu-sett-lang-polish">Polish</option>
+                            </select>
+                            <h5 class="col-prim" tkey-gen="menu-sett-units-desc"></h5>
+                            <select name="select-measurement-units" class="menu-dd-nohide"
+                                tkey-aria="menu-sett-units-select">
+                                <option value="metric" tkey-gen="menu-sett-units-metric">Metric scale</option>
+                                <option value="imperial" tkey-gen="menu-sett-units-imperial">Imperial scale</option>
+                                <option value="default" tkey-gen="menu-sett-units-kelvin">Kelvin scale</option>
+                            </select>
+                            <h5 class="col-prim" tkey-gen="menu-sett-theme-desc">Preffered theme type</h5>
+                            <select name="select-theme" class="menu-dd-nohide" tkey-aria="menu-sett-theme-select">
+                                <option value="default" tkey-gen="menu-sett-theme-sun">Dependant on sun pos.</option>
+                                <option value="local" tkey-gen="menu-sett-theme-local">Dependant on device time</option>
+                                <option value="day" tkey-gen="menu-sett-theme-day">Always day theme</option>
+                                <option value="night" tkey-gen="menu-sett-theme-night">Always night theme</option>
+                                <option value="contrast" tkey-gen="menu-sett-theme-contrast">Always contrast mode
+                                </option>
+                            </select>
+                            <h5 class="col-prim" tkey-gen="menu-sett-clock-desc">12-hour clock mode</h5>
+                            <input type="checkbox" class="checkbox-clock-mode" id="checkbox-clock-mode">
+                            <label for="checkbox-clock-mode" class="menu-dd-nohide"
+                                tkey-aria="menu-sett-clock-checkbox"></label>
+                            <h5 class="col-prim" tkey-gen="menu-sett-anim-desc">No-animation mode</h5>
+                            <input type="checkbox" class="checkbox-no-anim" id="checkbox-no-anim">
+                            <label for="checkbox-no-anim" class="menu-dd-nohide"
+                                tkey-aria="menu-sett-anim-checkbox"></label>
+                            <button class="button-clear-storage button-bordered col-prim"
+                                tkey-aria="menu-sett-clear-button"><i class="bi bi-trash"></i><span
+                                    tkey-gen="menu-sett-clear-button">Clear saved
+                                    data</span></button>
+                        </div>
+                        <h5 class="col-prim"><span>Coded by <i class="bi bi-github col-prim"></i>
+                                <a href="https://github.com/Northhhh/weather-app" target="_blank"
+                                    class="col-sec">Northhhh</a></span><br>
+                            <span>© Kacper Brzycki, 2022</span>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar-wrapper menu-dd-nohide">
+                <i class="bi bi-cloud-sun-fill nav-icon col-prim header-icon menu-dd-nohide"></i>
+                <span class="input-placeholder"></span>
+                <div class="navbar-menu-buttons">
+                    <button class="col-prim button-search nav-button nav-icon menu-dd-nohide mobile-visible"
+                        tkey-aria="search-button"><i class="bi bi-search menu-dd-nohide"></i></button>
+                    <button class="col-prim button-settings nav-button nav-icon menu-dd-nohide"
+                        tkey-aria="settings-button"><i class="bi bi-gear gear-icon menu-dd-nohide"></i></button>
+                </div>
+                <button class="x-button mobile-visible" tkey-aria="close-button"></button>
+            </div>
+        </header>
+        <section>
+            <p class="tooltip col-sec" tkey-gen="tooltip-default">You will see your search result here!</p>
+        </section>
+        <section class="result-container box-hidden">
+            <div class="result-navbar" name="result-navbar">
+                <button class="mobile-visible button-result-nav-backward nav-button nav-icon"
+                    tkey-aria="result-backward-button"><span class="arr-left"></span></button>
+                <input type="radio" class="radio-result-nav" id="radio-result-nav1" name="radio-result-nav"
+                    value="card1" checked>
+                <label for="radio-result-nav1" class="result-nav-label" tkey-gen="result-current-radio"
+                    tkey-aria="result-current-radio">Current forecast</label>
+                <input type="radio" class="radio-result-nav" id="radio-result-nav2" name="radio-result-nav"
+                    value="card2">
+                <label for="radio-result-nav2" class="result-nav-label" tkey-gen="result-daily-radio"
+                    tkey-aria="result-daily-radio">24-hour forecast</label>
+                <input type="radio" class="radio-result-nav" id="radio-result-nav3" name="radio-result-nav"
+                    value="card3">
+                <label for="radio-result-nav3" class="result-nav-label" tkey-gen="result-weekly-radio"
+                    tkey-aria="result-weekly-radio">7-day forecast</label>
+                <button class="mobile-visible button-result-nav-forward nav-button nav-icon"
+                    tkey-aria="result-forward-button"><span class="arr-right"></span></button>
+            </div>
+            <article class="current-forecast weather-box card1">
+                <div class="cf-info-wrapper">
+                    <div class="cf-city-date-box">
+                        <div class="cf-city-info">
+                            <i class="fi fi-pl country-flag-data"></i>
+                            <div class="cf-city-name-box">
+                                <h2 class="city-name-data col-prim">City Name</h2>
+                                <h3 class="country-code-data col-sec">CC</h3>
+                            </div>
+                        </div>
+                        <div class="cf-city-date-time">
+                            <h3 class="city-date-data col-sec"></h3>
+                            <p class="city-time-data col-sec"></p>
+                        </div>
+                    </div>
+                    <div class="cf-weather-box">
+                        <div class="cf-weather-temp">
+                            <div class="cf-temp-box">
+                                <div class="cf-temp" tkey-aria="weather-temp-desc">
+                                    <h1 class="cf-temp-data col-prim">00</h1>
+                                    <h2 class="units-temp-data col-sec">°C</h2>
+                                </div>
+                                <p class="col-sec cf-fl-temp-data" tkey-gen="weather-temp-feels-like">Feels like: </p>
+                            </div>
+                            <i class="cf-weather-icon-data col-prim icon-big bi bi-cloud-sun-fill"></i>
+                        </div>
+                        <h3 class="cf-weather-desc-data col-prim"></h3>
+                    </div>
+                </div>
+                <span class="splitter"></span>
+                <div class="cf-weather-details">
+                    <div class="cf-sun-position">
+                        <h3 class="col-prim cf-header"><i class="bi bi-sun"></i><span tkey-gen="weather-sun-pos-desc">
+                                Sun position</span></h3>
+                        <div class="cf-sun-box">
+                            <div class="cf-sun-path">
+                                <i class="cf-sun-icon"></i>
+                            </div>
+                        </div>
+                        <div class="cf-sun-details">
+                            <p class="cf-sun-details-time col-prim">
+                                <i class="bi bi-sunrise"></i>
+                                <span class="cf-sunrise-data col-sec"></span>
+                            </p>
+                            <p class="cf-sun-details-time col-prim">
+                                <span class="cf-sunset-data col-sec"></span>
+                                <i class="bi bi-sunset"></i>
+                            </p>
+                        </div>
+                    </div>
+                    <span class="splitter mobile-visible"></span>
+                    <div class="cf-content-table">
+                        <h3 class="col-prim cf-header"><i class="bi bi-wind"></i><span
+                                tkey-gen="weather-wind-desc">Wind</span></h3>
+                        <div class="c-table-content">
+                            <p class="c-table-cell col-prim" tkey-gen="weather-wind-speed">Wind speed</p>
+                            <p class="c-table-cell col-sec cf-wind-speed-data"></p>
+                            <p class="c-table-cell col-prim" tkey-gen="weather-wind-angle">Wind angle</p>
+                            <p class="c-table-cell col-sec cf-wind-deg-data"></p>
+                            <p class="c-table-cell cf-gust-hideable box-hidden col-prim" tkey-gen="weather-wind-gust">
+                                Wind gust</p>
+                            <p class="c-table-cell cf-gust-hideable cf-wind-gust-data box-hidden col-sec"></p>
+                        </div>
+                    </div>
+                    <span class="splitter mobile-visible"></span>
+                    <div class="cf-content-table">
+                        <h3 class="col-prim cf-header"><i class="bi bi-cloud-drizzle"></i><span
+                                tkey-gen="weather-details-desc">Weather details</span></h3>
+                        <div class="c-table-content">
+                            <p class="c-table-cell col-prim" tkey-gen="weather-press">Pressure</p>
+                            <p class="c-table-cell col-sec cf-press-data"></p>
+                            <p class="c-table-cell col-prim" tkey-gen="weather-humid">Humidity</p>
+                            <p class="c-table-cell col-sec cf-humid-data"></p>
+                            <p class="c-table-cell col-prim" tkey-gen="weather-cloud-perc">Cloud percentage</p>
+                            <p class="c-table-cell col-sec cf-cloud-data"></p>
+                            <p class="c-table-cell col-prim" tkey-gen="weather-dew-pt">Dew point</p>
+                            <p class="c-table-cell col-sec cf-dewpt-data"></p>
+                            <p class="c-table-cell cf-rain-hideable box-hidden col-prim" tkey-gen="weather-rain-am">Rain
+                                amount
+                                (last 1h)</p>
+                            <p class="c-table-cell cf-rain-hideable cf-rain-data box-hidden col-sec"></p>
+                            <p class="c-table-cell cf-snow-hideable box-hidden col-prim" tkey-gen="weather-snow-am">Snow
+                                amount
+                                (last 1h)</p>
+                            <p class="c-table-cell cf-snow-hideable cf-snow-data box-hidden col-sec"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="splitter"></div>
+                <div class="cf-air-quality">
+                    <h3 class="col-prim cf-header"><i class="bi bi-water"></i><span tkey-gen="weather-aq-desc">Air
+                            quality</span></h3>
+                    <div class="cf-aqi-content">
+                        <div class="cf-aqi-desc-wrapper">
+                            <p class="col-prim" tkey-gen="weather-aq-overall-desc">Overall air quality:</p>
+                            <h2 class="cf-aqi-desc">Good</h2>
+                            <span class="cf-aqi-indicator"></span>
+                        </div>
+                        <span class="splitter mobile-visible"></span>
+                        <div class="cf-aqi-wrapper">
+                            <div class="cf-content-table">
+                                <div class="c-table-content">
+                                    <p class="c-table-cell col-prim">O<sub>3</sub></p>
+                                    <p class="c-table-cell col-sec cf-o3-data"></p>
+                                    <p class="c-table-cell col-prim">PM<sub>2.5</sub></p>
+                                    <p class="c-table-cell col-sec cf-pm2_5-data"></p>
+                                    <p class="c-table-cell col-prim">PM<sub>10</sub></p>
+                                    <p class="c-table-cell col-sec cf-pm10-data"></p>
+                                    <p class="c-table-cell col-prim">SO<sub>2</sub></p>
+                                    <p class="c-table-cell col-sec cf-so2-data"></p>
+                                </div>
+                            </div>
+
+                            <div class="cf-content-table">
+                                <div class="c-table-content">
+                                    <p class="c-table-cell col-prim">CO</p>
+                                    <p class="c-table-cell col-sec cf-co-data"></p>
+                                    <p class="c-table-cell col-prim">NH<sub>3</sub></p>
+                                    <p class="c-table-cell col-sec cf-nh3-data"></p>
+                                    <p class="c-table-cell col-prim">NO</p>
+                                    <p class="c-table-cell col-sec cf-no-data"></p>
+                                    <p class="c-table-cell col-prim">NO<sub>2</sub></p>
+                                    <p class="c-table-cell col-sec cf-no2-data"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article class="daily-forecast weather-box card2 box-hidden">
+                <div class="card-header col-prim">
+                    <div class="card-header-info">
+                        <h2 class="col-prim" tkey-gen="weather-daily-desc">24-hour forecast for</h2>
+                        <div class="card-header-wrapper">
+                            <span class="fi fi-pl country-flag-data"></span>
+                            <h3 class="city-name-data col-prim">City Name</h3>
+                            <p class="country-code-data col-sec">CC</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="df-wrapper">
+                    <div class="df-data-type-wrapper">
+                        <h5 class="col-sec" tkey-gen="weather-chart-data-type">Data type</h5>
+                        <select class="df-data-type" name="select-df-chart-data-type" tkey-aria="weather-chart-select">
+                            <option value="temp" tkey-gen="weather-temp">Temperature</option>
+                            <option value="humidity" tkey-gen="weather-humid">Humidity</option>
+                            <option value="pressure" tkey-gen="weather-press">Pressure</option>
+                            <option value="wind_speed" tkey-gen="weather-wind-speed">Wind speed</option>
+                        </select>
+                        <span class="col-sec bi bi-info-circle df-chart-tooltip-hover"></span>
+                        <h5 class="col-prim df-chart-desc"><span class="mobile-hidden"
+                                tkey-gen="weather-chart-tooltip-hover"></span><span class="mobile-visible"
+                                tkey-gen="weather-chart-tooltip-click"></span><span
+                                tkey-gen="weather-chart-tooltip-desc"></span></h5>
+    
+                    </div>
+                    <div class="df-chart-container">
+                        <div class="df-chart-scale">
+                            <h5 class="df-chart-max-val col-prim"></h5>
+                            <h5 class="df-chart-min-val col-prim"></h5>
+                        </div>
+                        <div class="df-chart-wrapper">
+                            <div class="df-chart-columns">
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                                <span class="df-chart-col chart-col-pos"></span>
+                            </div>
+                            <div class="df-chart-data">
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                                <div class="df-hourly-weather-info col-prim"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article class="weekly-forecast weather-box card3 box-hidden">
+                <div class="card-header col-prim">
+                    <div class="card-header-info">
+                        <h2 class="col-prim" tkey-gen="weather-weekly-desc">7-day forecast for</h2>
+                        <div class="card-header-wrapper">
+                            <span class="fi fi-pl country-flag-data"></span>
+                            <h3 class="city-name-data col-prim">City Name</h3>
+                            <p class="country-code-data col-sec">CC</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wf-wrapper">
+                    <nav class="wf-weekday-nav menu-dd-nohide">
+                        <h5 class="col-sec menu-dd-nohide mobile-visible" tkey-gen="weather-choose-weekday"></h5>
+                        <input type="radio" id="wf-weekday-card-0" class="radio-wf-weekday-card"
+                            name="radio-wf-weekday-card" value="0">
+                        <label for="wf-weekday-card-0" class="wf-weekday-card col-prim">
+                            <i class="wf-card-weekday-weather-icon bi bi-cloud-rain" title="Current weather"></i>
+                            <p class="wf-card-weekday" aria-hidden="true">Weekday</p>
+                            <p class="wf-card-weekday-date" aria-hidden="true">Date</p>
+                            <p class="wf-card-weekday-temp" aria-hidden="true">12 °C</p>
+                        </label>
+                        <input type="radio" id="wf-weekday-card-1" class="radio-wf-weekday-card"
+                            name="radio-wf-weekday-card" value="1">
+                        <label for="wf-weekday-card-1" class="wf-weekday-card col-prim">
+                            <i class="wf-card-weekday-weather-icon bi bi-cloud-rain" title="Current weather"></i>
+                            <p class="wf-card-weekday" aria-hidden="true">Weekday</p>
+                            <p class="wf-card-weekday-date" aria-hidden="true">Date</p>
+                            <p class="wf-card-weekday-temp" aria-hidden="true">12 °C</p>
+                        </label>
+                        <input type="radio" id="wf-weekday-card-2" class="radio-wf-weekday-card"
+                            name="radio-wf-weekday-card" value="2">
+                        <label for="wf-weekday-card-2" class="wf-weekday-card col-prim">
+                            <i class="wf-card-weekday-weather-icon bi bi-cloud-rain" title="Current weather"></i>
+                            <p class="wf-card-weekday" aria-hidden="true">Weekday</p>
+                            <p class="wf-card-weekday-date" aria-hidden="true">Date</p>
+                            <p class="wf-card-weekday-temp" aria-hidden="true">12 °C</p>
+                        </label>
+                        <input type="radio" id="wf-weekday-card-3" class="radio-wf-weekday-card"
+                            name="radio-wf-weekday-card" value="3">
+                        <label for="wf-weekday-card-3" class="wf-weekday-card col-prim">
+                            <i class="wf-card-weekday-weather-icon bi bi-cloud-rain" title="Current weather"></i>
+                            <p class="wf-card-weekday" aria-hidden="true">Weekday</p>
+                            <p class="wf-card-weekday-date" aria-hidden="true">Date</p>
+                            <p class="wf-card-weekday-temp" aria-hidden="true">12 °C</p>
+                        </label>
+                        <input type="radio" id="wf-weekday-card-4" class="radio-wf-weekday-card"
+                            name="radio-wf-weekday-card" value="4">
+                        <label for="wf-weekday-card-4" class="wf-weekday-card col-prim">
+                            <i class="wf-card-weekday-weather-icon bi bi-cloud-rain" title="Current weather"></i>
+                            <p class="wf-card-weekday" aria-hidden="true">Weekday</p>
+                            <p class="wf-card-weekday-date" aria-hidden="true">Date</p>
+                            <p class="wf-card-weekday-temp" aria-hidden="true">12 °C</p>
+                        </label>
+                        <input type="radio" id="wf-weekday-card-5" class="radio-wf-weekday-card"
+                            name="radio-wf-weekday-card" value="5">
+                        <label for="wf-weekday-card-5" class="wf-weekday-card col-prim">
+                            <i class="wf-card-weekday-weather-icon bi bi-cloud-rain" title="Current weather"></i>
+                            <p class="wf-card-weekday" aria-hidden="true">Weekday</p>
+                            <p class="wf-card-weekday-date" aria-hidden="true">Date</p>
+                            <p class="wf-card-weekday-temp" aria-hidden="true">12 °C</p>
+                        </label>
+                        <input type="radio" id="wf-weekday-card-6" class="radio-wf-weekday-card"
+                            name="radio-wf-weekday-card" value="6">
+                        <label for="wf-weekday-card-6" class="wf-weekday-card col-prim">
+                            <i class="wf-card-weekday-weather-icon bi bi-cloud-rain" title="Current weather"></i>
+                            <p class="wf-card-weekday" aria-hidden="true">Weekday</p>
+                            <p class="wf-card-weekday-date" aria-hidden="true">Date</p>
+                            <p class="wf-card-weekday-temp" aria-hidden="true">12 °C</p>
+                        </label>
+                    </nav>
+                    <button class="col-prim button-bordered mobile-visible button-wf-mobile-weekday menu-dd-nohide"><i
+                            class="b bi-calendar2-week menu-dd-nohide"></i><span tkey-gen="weather-choose-weekday"
+                            class="menu-dd-nohide"></span></button>
+                    <div class="wf-info-wrapper">
+                        <div class="wf-info-data-wrapper">
+                            <h2 class="wf-weekday-data col-prim">Thursday</h2>
+                            <p class="wf-date-data col-sec">12.04.2022</p>
+                        </div>
+                        <div class="wf-sun-pos">
+                            <p class="col-sec"><i class="bi bi-sunrise" tkey-aria="weather-sunrise-at"></i>
+                                <span class="wf-sunrise-data">12:34</span>
+                            </p>
+                            <p class="col-sec"><i class="bi bi-sunset" tkey-aria="weather-sunset-at"></i>
+                                <span class="wf-sunset-data">12:34</span>
+                            </p>
+                        </div>
+
+                        <i class="bi bi-cloud-rain wf-weather-icon-data col-prim"></i>
+                        <p class="wf-weather-desc-data col-prim">Weather descrption</p>
+                        <span class="splitter"></span>
+
+                        <p class="col-prim wf-section-header" tkey-gen="weather-temp">Temperature</p>
+                        <div class="wf-temp-wrapper">
+                            <div class="wf-temp-box col-prim"><i class="bi bi-sun" tkey-aria="weather-temp-day"></i>
+                                <p class="wf-day-temp-data">12 °C</p>
+                                <p class="wf-day-fl-temp-data col-sec">12 °C</p>
+                            </div>
+                            <div class="wf-temp-box col-prim"><i class="bi bi-moon" tkey-aria="weather-temp-night"></i>
+                                <p class="wf-night-temp-data">12 °C</p>
+                                <p class="wf-night-fl-temp-data col-sec">12 °C</p>
+                            </div>
+                        </div>
+                        <p class="col-prim wf-section-header" tkey-gen="weather-details-desc">Weather details</p>
+
+                        <div class="wf-details-table col-prim">
+                            <i class="bi bi-arrows-collapse" tkey-aria="weather-press"></i>
+                            <p class="wf-press-data">1024 hPa</p>
+                            <i class="bi bi-droplet" tkey-aria="weather-humid"></i>
+                            <p class="wf-humid-data">100%</p>
+                            <i class="bi bi-wind" tkey-aria="weather-wind-speed"></i>
+                            <p class="wf-wind-speed-data">100 m/s</p>
+                            <i class="bi bi-umbrella" tkey-aria="weather-pop"></i>
+                            <p class="wf-pop-data">0 %</p>
+                            <i class="bi bi-cloud-rain wf-rain-hideable" tkey-aria="weather-rain-am"></i>
+                            <p class="wf-rain-data wf-rain-hideable">0 mm</p>
+                            <i class="bi bi-cloud-snow wf-snow-hideable" tkey-aria="weather-snow-am"></i>
+                            <p class="wf-snow-data wf-snow-hideable">0 mm</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <p class="refresh-tooltip col-sec"><span tkey-gen="tooltip-refresh">Last data refresh at</span> <span
+                    class="refresh-time">12:34</span> <a href="#" class="refresh-link col-prim"
+                    tkey-gen="text-refresh">Refresh</a></p>
+        </section>
+    </main>
+    <script defer type="module" src="./js/min/main.min.js"></script>
+</body>
+
+</html>

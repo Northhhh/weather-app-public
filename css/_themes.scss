@@ -1,0 +1,625 @@
+.theme-night {
+    @media only screen and (max-width: 768px) {
+        .navbar-wrapper {
+            background-color: $nightBlue;
+        }
+
+        .navbar-wrapper {
+            -moz-box-shadow: 0 3px 5px rgba(133, 133, 133, 0.75);
+            -webkit-box-shadow: 0 3px 5px rgba(63, 63, 63, 0.75);
+            box-shadow: 0 3px 5px rgba(133, 133, 133, 0.75);
+        }
+
+        .menu-dd, .wf-weekday-nav
+        {
+            background-color: #170d3c;
+        }
+
+        .menu-search-wrapper
+        {
+            background: linear-gradient(90deg, rgba(29, 17, 99, 0.7) 0%, rgba(63,94,251,0) 50%);
+        }
+
+        .menu-dd-item, .wf-weekday-card {
+            &:nth-of-type(odd)::after {
+                background-color: $white;
+            }
+
+            &:nth-of-type(even)::after {
+                background-color: $lightGray;
+            }
+        }
+
+        .radio-wf-weekday-card:checked + label
+        {
+            background: linear-gradient(90deg, rgba(223,223,223,0.5) 0%, rgba(63,94,251,0) 50%);
+        }
+    }
+
+    @media only screen and (min-width: 768px)
+    {
+        .menu-dd.dd-opened {
+            background-color: $nightBlue;
+    
+            .search-bar {
+                background-color: $gray;
+            }
+        }
+
+        .radio-wf-weekday-card {
+            &:checked+label::after {
+                background-color: $white;
+            }
+        }
+    }
+
+    background: linear-gradient(180deg, $lightNightBlue 0%, $nightBlue 100%);
+
+    .col-prim {
+        color: $white;
+    }
+
+    .col-sec {
+        color: $gray;
+    }
+
+    .col-neg {
+        color: $lightBlue;
+    }
+
+    .col-pos {
+        color: $lightOrange;
+    }
+
+    input,
+    select {
+        color: $white;
+        border-bottom-color: $gray;
+
+        &:hover {
+            border-bottom-color: $lightGray;
+        }
+
+        &:focus {
+            border-bottom-color: $white;
+        }
+    }
+
+    .radio-result-nav,
+    .radio-menu-dd-nav {
+        &+label {
+            color: $gray;
+
+            &:hover {
+                color: $lightGray;
+            }
+        }
+
+        &:checked+label {
+            color: $white;
+
+            &::after {
+                background-color: $white;
+            }
+        }
+    }
+
+    .button-reset-input {
+        color: $gray;
+
+        &:hover {
+            color: $white;
+        }
+    }
+
+    .df-chart-container {
+        background-color: rgba(90, 90, 90, 0.5);
+
+        .df-chart-scale {
+            border-right: 1px solid $white;
+        }
+
+        .df-chart-columns {
+            border-bottom: 1px solid $white;
+        }
+
+        .chart-col-neg {
+            background-color: $lightBlue;
+
+            &:hover {
+                background-color: $saturatedBlue;
+            }
+        }
+
+        .chart-col-pos {
+            background-color: $lightOrange;
+
+            &:hover {
+                background-color: $saturatedOrange;
+            }
+        }
+    }
+
+    .df-chart-col::after, .df-chart-desc {
+        background-color: rgb(90, 90, 90);
+        color: $white;
+    }
+
+    .menu-dd-item {
+        &:hover,
+        &:focus {
+            background-color: rgba(160, 160, 160, 0.15);
+
+            button:hover {
+                background-color: rgba(160, 160, 160, 0.8);
+            }
+        }
+
+        &::after {
+            background-color: $white;
+        }
+    }
+
+    .button-bordered {
+        background-color: rgba(160, 160, 160, 0.15);
+        border: 1px solid $white;
+
+        &:hover,
+        &:focus {
+            background-color: rgba(160, 160, 160, 0.8);
+        }
+    }
+
+    input[type="checkbox"] {
+        &+label {
+            background-color: $lightOrange;
+
+            &:hover {
+                background-color: $orange;
+            }
+
+            &::after {
+                background-color: $white;
+            }
+        }
+
+        &:checked+label {
+            background-color: $saturatedOrange;
+
+            &:hover {
+                background-color: $orange;
+            }
+        }
+    }
+
+    .x-button,
+    .arr-left,
+    .arr-right {
+        &::before,
+        &::after {
+            background-color: $white;
+        }
+    }
+
+    .splitter
+    {
+        background-color: $white;
+    }
+}
+
+.theme-day {
+    @media only screen and (max-width: 768px) {
+        .navbar-wrapper {
+            background-color: $white;
+        }
+
+        .navbar-wrapper {
+            -moz-box-shadow: 0 3px 5px rgba(133, 133, 133, 0.75);
+            -webkit-box-shadow: 0 3px 5px rgba(63, 63, 63, 0.75);
+            box-shadow: 0 3px 5px rgba(133, 133, 133, 0.75);
+        }
+
+        .menu-dd, .wf-weekday-nav
+        {
+            background-color: #ddd5c5;
+        }
+
+        .menu-search-wrapper
+        {
+            background: linear-gradient(90deg, rgba(247, 247, 247, 0.5) 0%, rgba(63,94,251,0) 50%);
+        }
+
+        .menu-dd-item, .wf-weekday-card {
+            &:nth-of-type(odd)::after {
+                background-color: $white;
+            }
+
+            &:nth-of-type(even)::after {
+                background-color: $gray;
+            }
+        }
+
+        .radio-wf-weekday-card:checked + label
+        {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.5) 0%, rgba(63,94,251,0) 50%);
+        }
+    }
+
+    @media only screen and (min-width: 768px)
+    {
+        .menu-dd.dd-opened {
+            background-color: $lightOrange;
+    
+            .search-bar {
+                background-color: $gray;
+            }
+        }
+
+        .radio-wf-weekday-card {
+            &:checked+label::after {
+                background-color: $nightBlue;
+            }
+        }
+    }
+
+    background: linear-gradient(180deg, $white 0%, $lightOrange 100%);
+
+    .col-prim {
+        color: $nightBlue;
+    }
+
+    .col-sec {
+        color: $darkGray;
+    }
+
+    .col-neg {
+        color: $saturatedBlue;
+    }
+
+    .col-pos {
+        color: $saturatedOrange;
+    }
+
+    input,
+    select {
+        color: $nightBlue;
+        border-bottom-color: $darkGray;
+
+        &:hover {
+            border-bottom-color: $lightNightBlue;
+        }
+
+        &:focus {
+            border-bottom-color: $nightBlue;
+        }
+    }
+
+    .radio-result-nav,
+    .radio-menu-dd-nav {
+        &+label {
+            color: $darkGray;
+
+            &:hover {
+                color: $lightNightBlue;
+            }
+        }
+
+        &:checked+label {
+            color: $nightBlue;
+
+            &::after {
+                background-color: $nightBlue;
+            }
+        }
+    }
+
+    .button-reset-input {
+        color: $darkGray;
+
+        &:hover {
+            color: $nightBlue;
+        }
+    }
+
+    .df-chart-container {
+        background-color: rgba(250, 250, 250, 0.5);
+
+        .df-chart-scale {
+            border-right: 1px solid $nightBlue;
+        }
+
+        .df-chart-columns {
+            border-bottom: 1px solid $nightBlue;
+        }
+
+        .chart-col-neg {
+            background-color: $blue;
+
+            &:hover {
+                background-color: $saturatedBlue;
+            }
+        }
+
+        .chart-col-pos {
+            background-color: $orange;
+
+            &:hover {
+                background-color: $saturatedOrange;
+            }
+        }
+    }
+    
+    .df-chart-col::after, .df-chart-desc {
+        background-color: rgb(250, 250, 250);
+        color: $nightBlue;
+    }
+
+    .menu-dd-item {
+
+        &:hover,
+        &:focus {
+            background-color: rgba(245, 245, 245, 0.15);
+
+            &>button:hover,
+            &>button:focus {
+                background-color: rgba(245, 245, 245, 0.8);
+            }
+        }
+
+        &::after {
+            background-color: $nightBlue;
+        }
+    }
+
+    .button-bordered {
+        background-color: rgba(245, 245, 245, 0.15);
+        border: 1px solid $nightBlue;
+
+        &:hover,
+        &:focus {
+            background-color: rgba(245, 245, 245, 0.8);
+        }
+    }
+
+    input[type="checkbox"] {
+        &+label {
+            background-color: $lightBlue;
+
+            &:hover {
+                background-color: $blue;
+            }
+
+            &::after {
+                background-color: $white;
+            }
+        }
+
+        &:checked+label {
+            background-color: $saturatedBlue;
+
+            &:hover {
+                background-color: $blue;
+            }
+        }
+    }
+
+    .x-button,
+    .arr-left,
+    .arr-right {
+        &::before,
+        &::after {
+            background-color: $nightBlue;
+        }
+    }
+
+    .splitter
+    {
+        background-color: $nightBlue;
+    }
+}
+
+.theme-contrast {
+    @media only screen and (max-width: 768px) {
+        .navbar-wrapper {
+            background-color: rgb(77, 77, 77);
+        }
+
+        .navbar-wrapper {
+            -moz-box-shadow: 0 3px 5px rgba(133, 133, 133, 0.75);
+            -webkit-box-shadow: 0 3px 5px rgba(63, 63, 63, 0.75);
+            box-shadow: 0 3px 5px rgba(133, 133, 133, 0.75);
+        }
+
+        .menu-dd, .wf-weekday-nav
+        {
+            background-color: black;
+        }
+
+        .menu-dd-item, .wf-weekday-card {
+            &:nth-of-type(odd)::after {
+                background-color: $white;
+            }
+
+            &:nth-of-type(even)::after {
+                background-color: $gray;
+            }
+        }
+
+        .radio-wf-weekday-card:checked + label
+        {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.5) 0%, rgba(63,94,251,0) 50%);
+        }
+    }
+
+    @media only screen and (min-width: 768px)
+    {
+        .menu-dd.dd-opened {
+            background-color: rgb(29, 29, 29);
+    
+            .search-bar {
+                background-color: black;
+            }
+        }
+
+        .radio-wf-weekday-card {
+            &:checked+label::after {
+                background-color: $contrastYellow;
+            }
+        }
+    }
+
+    background: black;
+
+    .col-prim {
+        color: $contrastYellow;
+    }
+
+    .col-sec {
+        color: $contrastGreen;
+    }
+
+    .col-neg {
+        color: $saturatedBlue;
+    }
+
+    .col-pos {
+        color: $saturatedOrange;
+    }
+
+    input,
+    select {
+        color: $contrastYellow;
+        border-bottom-color: $contrastGreen;
+
+        &:hover, &:focus {
+            border-bottom-color: $contrastYellow;
+        }
+    }
+
+    .radio-result-nav,
+    .radio-menu-dd-nav {
+        &+label {
+            color: $contrastGreen;
+
+            &:hover {
+                color: #80FFA8;
+            }
+        }
+
+        &:checked+label {
+            color: $contrastYellow;
+
+            &::after {
+                background-color: $contrastYellow;
+            }
+        }
+    }
+
+    .button-reset-input {
+        color: $contrastGreen;
+
+        &:hover {
+            color: $contrastYellow;
+        }
+    }
+
+    .df-chart-container {
+        background-color: #a0a0a093;
+
+        .df-chart-scale {
+            border-right: 1px solid $contrastYellow;
+        }
+
+        .df-chart-columns {
+            border-bottom: 1px solid $contrastYellow;
+        }
+
+        .chart-col-neg {
+            background-color: $blue;
+
+            &:hover {
+                background-color: $saturatedBlue;
+            }
+        }
+
+        .chart-col-pos {
+            background-color: $orange;
+
+            &:hover {
+                background-color: $saturatedOrange;
+            }
+        }
+    }
+    
+    .df-chart-col::after, .df-chart-desc {
+        background-color: rgb(29, 29, 29);
+        color: $contrastYellow;
+    }
+
+    .menu-dd-item {
+
+        &:hover,
+        &:focus {
+            background-color: rgba(245, 245, 245, 0.15);
+
+            &>button:hover,
+            &>button:focus {
+                background-color: rgba(245, 245, 245, 0.8);
+            }
+        }
+
+        &::after {
+            background-color: $contrastYellow;
+        }
+    }
+
+    .button-bordered {
+        background-color: rgba(245, 245, 245, 0.15);
+        border: 1px solid $contrastYellow;
+
+        &:hover,
+        &:focus {
+            background-color: rgba(245, 245, 245, 0.8);
+        }
+    }
+
+    input[type="checkbox"] {
+        &+label {
+            background-color: #D6FFE4;
+
+            &:hover {
+                background-color: #80FFA8;
+            }
+
+            &::after {
+                background-color: $darkGray;
+            }
+        }
+
+        &:checked+label {
+            background-color: $contrastGreen;
+
+            &:hover {
+                background-color: #80FFA8;
+            }
+        }
+    }
+
+    .x-button,
+    .arr-left,
+    .arr-right {
+        &::before,
+        &::after {
+            background-color: $contrastYellow;
+        }
+    }
+
+    .splitter
+    {
+        background-color: $contrastGreen;
+    }
+}
+
+.col-err {
+    color: $warningRed;
+}

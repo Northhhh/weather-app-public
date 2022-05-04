@@ -1,0 +1,102 @@
+@import './imports';
+
+.page-load
+{
+    display: none !important;
+}
+
+body {
+    background-image: url('../../media/pictures/night-background.webp');
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.box-hidden {
+    display: none !important;
+}
+
+body.no-anim * {
+    transition: none !important;
+    animation: none !important;
+
+    &::after,
+    &::before {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+i {
+    font-size: 20px;
+}
+
+@media only screen and (min-width: 768px) {
+    .mobile-visible {
+        display: none;
+    }
+
+    body::after {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: white;
+        opacity: 0.3;
+        z-index: 0;
+    }
+
+    h1 {
+        @include font(3em, 700);
+    }
+
+    h2 {
+        @include font(2em, 500);
+    }
+
+    h3 {
+        @include font(1.5em, 400);
+    }
+
+    p,
+    p.c-table-cell {
+        @include font(1.2em, 300);
+    }
+
+    h5 {
+        @include font(0.9em, 200);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .mobile-hidden {
+        display: none;
+    }
+
+    h1 {
+        @include font(2em, 700);
+    }
+
+    h2 {
+        @include font(1.5em, 500);
+    }
+
+    h3 {
+        @include font(1.2em, 400);
+    }
+
+    p,
+    p.c-table-cell {
+        @include font(1.1em, 300);
+    }
+
+    h5 {
+        @include font(0.9em, 100);
+    }
+}
