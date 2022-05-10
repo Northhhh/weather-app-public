@@ -1,5 +1,5 @@
 .theme-night {
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 767px) {
         .navbar-wrapper {
             background-color: $nightBlue;
         }
@@ -208,7 +208,7 @@
 }
 
 .theme-day {
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 767px) {
         .navbar-wrapper {
             background-color: $white;
         }
@@ -419,7 +419,7 @@
 }
 
 .theme-contrast {
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 767px) {
         .navbar-wrapper {
             background-color: rgb(77, 77, 77);
         }

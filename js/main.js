@@ -151,8 +151,8 @@ const getLocation = (searchQuery, overwrite, searchCache) => {
               content += `<div class="menu-dd-item">
               <button class="sld-city-select menu-dd-item-city col-prim">
                   <i class="fi fi-${e.country.toLowerCase()}"></i>
-                  <p class="menu-dd-item-loc">${e.name}</p>
-                  <h5 class="menu-dd-item-state">${e.state ? e.state : "N/A"}</h5>
+                  <p class="menu-dd-item-loc">${(e.local_names && e.local_names[settings.lang]) || e.name}</p>
+                  <h5 class="menu-dd-item-state">${e.state || "N/A"}</h5>
               </button>
               </div>`
             })
@@ -208,7 +208,7 @@ const setWeatherData = (weatherData) => {
   let loc = weatherData.location;
   document.querySelector('#radio-result-nav1').checked = true;
   changeCard(1);
-  document.querySelector('[tkey-gen="menu-fav-button"]').innerHTML = cachedLang.generic["menu-fav-button"].replace('%loc-name', loc.name);
+  document.querySelector('[tkey-gen="menu-fav-button"]').innerHTML = cachedLang.generic["menu-fav-button"].replace('%loc-name', (loc.local_names && loc.local_names[settings.lang]) || loc.name);
   hideToggler([tooltip, menuFavButton], resultBox);
   if (!favList.find(el => el.name === loc.name & el.country === loc.country & (loc.state != null ? el.state === loc.state : true))) hideToggler(...Array(1), menuFavButton);
   themeToggler();
@@ -300,7 +300,7 @@ clearStorageButton.addEventListener('click', () => {
   if (prompt === true) {
     console.log("Cleared local storage!");
     localStorage.clear();
-    editSettings('metric', true, true, 'default', 'en', true);
+    editSettings(...Array(5), true);
   }
 })
 
@@ -350,7 +350,6 @@ themeSelect.addEventListener('change', () => {
 
 langSelect.addEventListener('change', async () => {
   editSettings(...Array(4), langSelect.value);
-  await langHandler();
   if (weatherData.location != null) getWeatherData(weatherData.location);
 })
 

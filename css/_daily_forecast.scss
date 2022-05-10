@@ -1,11 +1,16 @@
 .daily-forecast {
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 767px) {
         select {
             align-self: flex-start;
         }
 
         .df-data-type-wrapper {
             margin: 10px 0;
+        }
+
+        .df-chart-desc
+        {
+            top: 0;
         }
     }
 
@@ -29,6 +34,11 @@
         .df-data-type-wrapper {
             margin: 8px 0 8px auto;
             align-self: flex-end;
+        }
+
+        .df-chart-desc
+        {
+            bottom: -150%;
         }
     }
 
@@ -54,8 +64,6 @@
                     width: 0;
                     height: 0;
                     max-width: 50vw;
-                    bottom: -150%;
-                    right: 0;
                     right: 0;
                     z-index: 2;
                     opacity: 0;

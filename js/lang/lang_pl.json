@@ -1,6 +1,6 @@
 {
     "lang": "pl",
-    "langVersion": 4,
+    "langVersion": 5,
     "generic": {
         "menu-input-mobile-tooltip": "Wpisz nazwę miejscowości",
         "menu-fav-button": "Dodaj <strong>%loc-name</strong> do listy ulubionych",
@@ -10,8 +10,9 @@
         "menu-hist-desc-empty": "Historia wyszukiwania jest pusta!",
         "menu-loc-desc": "Znaleziono <strong>%loc-amount</strong> miejscowości dla zapytania <strong>%loc-phrase</strong>:",
         "menu-sett-lang-desc": "Język",
-        "menu-sett-lang-english": "English",
+        "menu-sett-lang-english": "Angielski",
         "menu-sett-lang-polish": "Polski",
+        "menu-sett-lang-german": "Niemiecki",
         "menu-sett-units-desc": "Preferowany system miar",
         "menu-sett-units-metric": "System metryczny",
         "menu-sett-units-imperial": "System imperialny",

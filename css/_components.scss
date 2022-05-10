@@ -13,7 +13,7 @@
     box-sizing: border-box;
     align-self: center;
 
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 767px) {
         @include flex($dir: column, $just: center);
         margin: 10px 0;
         justify-self: center;

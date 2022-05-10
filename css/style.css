@@ -2,7 +2,7 @@
   background: linear-gradient(180deg, #1C2B6A 0%, #090519 100%);
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .theme-night .navbar-wrapper {
     background-color: #090519;
   }
@@ -10,7 +10,7 @@
     box-shadow: 0 3px 5px rgba(133, 133, 133, 0.75);
   }
   .theme-night .menu-dd, .theme-night .wf-weekday-nav {
-    background-color: #170d3c;
+    background-color: #170d3c; 
   }
   .theme-night .menu-search-wrapper {
     background: linear-gradient(90deg, rgba(29, 17, 99, 0.7) 0%, rgba(63, 94, 251, 0) 50%);
@@ -188,7 +188,7 @@
   background: linear-gradient(180deg, #ececec 0%, #d6c6a5 100%);
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .theme-day .navbar-wrapper {
     background-color: #ececec;
   }
@@ -376,7 +376,7 @@
   background: black;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .theme-contrast .navbar-wrapper {
     background-color: #4d4d4d;
   }
@@ -960,7 +960,7 @@ main .tooltip {
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   main {
     width: 100%;
     height: auto;
@@ -986,7 +986,7 @@ main .tooltip {
   align-self: center;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .card-header {
     display: flex;
     flex-flow: column nowrap;
@@ -1296,7 +1296,7 @@ input[type="text"]:focus {
   width: 100%;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .result-navbar {
     box-sizing: border-box;
     padding: 10px;
@@ -1380,6 +1380,7 @@ input[type="text"]:focus {
   font-size: 1em;
   font-weight: 400;
   padding: 10px;
+  text-align: center;
 }
 
 @media only screen and (min-width: 768px) {
@@ -1391,7 +1392,7 @@ input[type="text"]:focus {
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .result-container {
     display: flex;
     flex-flow: column nowrap;
@@ -1410,7 +1411,7 @@ input[type="text"]:focus {
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .current-forecast .cf-info-wrapper,
   .current-forecast .cf-weather-details,
   .current-forecast .cf-aqi-content,
@@ -1470,9 +1471,6 @@ input[type="text"]:focus {
     flex-flow: row wrap;
     justify-content: center;
     align-items: stretch;
-  }
-  .current-forecast .cf-weather-details > div {
-    margin: 10px 0;
   }
   .current-forecast .cf-aqi-content {
     display: flex;
@@ -1601,7 +1599,7 @@ input[type="text"]:focus {
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: center;
-  margin: 0 10px;
+  margin: 10px;
 }
 
 .current-forecast .cf-content-table .c-table-content {
@@ -1699,6 +1697,7 @@ input[type="text"]:focus {
   height: auto;
   align-content: center;
   justify-content: center;
+  text-align: center;
   padding-bottom: 10px;
 }
 
@@ -1711,12 +1710,15 @@ input[type="text"]:focus {
   background: linear-gradient(90deg, #007a06 0%, #007a06 20%, #02b13c 20%, #02b13c 40%, #db9c14 40%, #db9c14 60%, #db8b2f 60%, #db8b2f 80%, #ce5252 80%);
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .daily-forecast select {
     align-self: flex-start;
   }
   .daily-forecast .df-data-type-wrapper {
     margin: 10px 0;
+  }
+  .daily-forecast .df-chart-desc {
+    top: 0;
   }
 }
 
@@ -1739,6 +1741,9 @@ input[type="text"]:focus {
   .daily-forecast .df-data-type-wrapper {
     margin: 8px 0 8px auto;
     align-self: flex-end;
+  }
+  .daily-forecast .df-chart-desc {
+    bottom: -150%;
   }
 }
 
@@ -1787,8 +1792,6 @@ input[type="text"]:focus {
   width: 0;
   height: 0;
   max-width: 50vw;
-  bottom: -150%;
-  right: 0;
   right: 0;
   z-index: 2;
   opacity: 0;
@@ -1923,14 +1926,14 @@ input[type="text"]:focus {
 .weekly-forecast {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   align-items: flex-start;
   width: auto;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .weekly-forecast {
     width: 100%;
   }
@@ -2255,7 +2258,7 @@ i {
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .mobile-hidden {
     display: none;
   }

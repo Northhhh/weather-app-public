@@ -56,7 +56,7 @@ function currentForecast(data) {
         e.classList.forEach((el) => { if (el.startsWith('bi-')) e.classList.replace(el, icon) });
     });
     document.querySelectorAll('.city-name-data').forEach((e) => {
-        e.innerHTML = location.name;
+        e.innerHTML = (location.local_names && location.local_names[settings.lang]) || location.name;
     });
     document.querySelectorAll('.country-code-data').forEach((e) => {
         e.innerHTML = location.country;

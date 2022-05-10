@@ -21,6 +21,7 @@
 .refresh-tooltip {
     @include font(1em);
     padding: 10px;
+    text-align: center;
 }
 
 @media only screen and (min-width: 768px) {
@@ -29,7 +30,7 @@
     }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
     .result-container {
         @include flex($dir: column, $align: center, $just: flex-start);
         box-sizing: border-box;

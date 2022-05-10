@@ -1,10 +1,11 @@
 import { getLocation, themeToggler, weatherData } from './main.min.js';
-const langVersion = 4; //for checking if cached language is up to date
+const langVersion = 5; //for checking if cached language is up to date
+const availableLang = ['en', 'pl', 'de'];
 let cachedData = localStorage.getItem('cachedData') ? JSON.parse(localStorage.getItem('cachedData')) : null;
 let cachedLang = localStorage.getItem('cachedLang') ? JSON.parse(localStorage.getItem('cachedLang')) : null;
 let searchHistory = localStorage.getItem('searchHistory') ? JSON.parse(localStorage.getItem('searchHistory')) : [];
 let favList = localStorage.getItem('favList') ? JSON.parse(localStorage.getItem('favList')) : [];
-let settings = localStorage.getItem('userSettings') ? JSON.parse(localStorage.getItem('userSettings')) : { units: 'metric', clockMode: 'h23', anim: true, theme: 'default', lang: 'en' };
+let settings = localStorage.getItem('userSettings') ? JSON.parse(localStorage.getItem('userSettings')) : { units: 'metric', clockMode: 'h23', anim: true, theme: 'default', lang: (navigator.languages.filter(value => availableLang.includes(value))).shift() || 'en'};
 
 const weatherIcons = new Map([[200, 'bi-cloud-lightning-rain'], [201, 'bi-cloud-lightning-rain'], [202, 'bi-cloud-lightning-rain'], [210, 'bi-cloud-lightning'], [211, 'bi-cloud-lightning'], [212, 'bi-cloud-lightning'], [221, 'bi-cloud-lightning'], [230, 'bi-cloud-lightning-rain'], [231, 'bi-cloud-lightning-rain'], [232, 'bi-cloud-lightning-rain'], [300, 'bi-cloud-drizzle'], [301, 'bi-cloud-drizzle'], [302, 'bi-cloud-drizzle'], [310, 'bi-cloud-drizzle'], [311, 'bi-cloud-drizzle'], [312, 'bi-cloud-drizzle'], [313, 'bi-cloud-drizzle'], [314, 'bi-cloud-drizzle'], [321, 'bi-cloud-drizzle'], [500, 'bi-cloud-rain'], [501, 'bi-cloud-rain'], [502, 'bi-cloud-rain-heavy'], [503, 'bi-cloud-rain-heavy'], [504, 'bi-cloud-rain-heavy'], [511, 'bi-cloud-sleet'], [520, 'bi-cloud-rain'], [521, 'bi-cloud-rain'], [522, 'bi-cloud-rain-heavy'], [531, 'bi-cloud-rain'], [600, 'bi-cloud-snow'], [601, 'bi-cloud-snow'], [602, 'bi-cloud-snow'], [611, 'bi-cloud-sleet'], [612, 'bi-cloud-sleet'], [613, 'bi-cloud-sleet'], [615, 'bi-cloud-sleet'], [616, 'bi-cloud-sleet'], [620, 'bi-cloud-snow'], [621, 'bi-cloud-snow'], [622, 'bi-cloud-snow'], [701, 'bi-cloud-haze2'], [711, 'bi-cloud-haze2'], [721, 'bi-cloud-haze2'], [731, 'bi-cloud-haze2'], [741, 'bi-cloud-haze2'], [751, 'bi-cloud-haze2'], [761, 'bi-cloud-haze2'], [762, 'bi-cloud-haze2'], [771, 'bi-wind'], [781, 'bi-tornado'], [800, 'bi-sun'], [801, 'bi-cloud-sun'], [802, 'bi-cloudy'], [803, 'bi-clouds'], [804, 'bi-clouds']])
 
@@ -16,7 +17,24 @@ const chartLimits = new Map([['metric', { 'temp': [0, 30], 'wind_speed': [0, 5.6
  
 const airQualityColors = ['#007a06', '#02b13c', '#db9c14', '#db8b2f', '#ce5252'];
 
-const editSettings = (units, clockMode, anim, theme, lang, reset) => {
+const editSettings = async (units, clockMode, anim, theme, lang, reset) => {
+    if (reset === true) {
+        let body = document.querySelector('body');
+        settings = { units: 'metric', clockMode: 'h23', anim: true, theme: 'default', lang: (navigator.languages.filter(value => availableLang.includes(value))).shift() || 'en'};
+        await langHandler();
+        editHistory();
+        editFav();
+        document.querySelector('.checkbox-no-anim').checked = document.querySelector('.checkbox-clock-mode').checked = false;
+        document.querySelector('[name="select-measurement-units"]').value = settings.units;
+        document.querySelector('[name="select-theme"]').value = settings.theme;
+        document.querySelector('[name="select-lang"]').value = settings.lang;
+        document.querySelector('.button-sfd-add-fav').classList.add('box-hidden');
+        updateClockData(weatherData);
+        body.classList.remove('no-anim');
+        localStorage.setItem('userSettings', JSON.stringify(settings));
+        return;
+    }
+
     if (units) settings.units = units;
     if (theme) {
         settings.theme = theme;
@@ -24,14 +42,8 @@ const editSettings = (units, clockMode, anim, theme, lang, reset) => {
     }
     if (lang) {
         settings.lang = lang;
-    }
-    if (reset === true) {
-        let body = document.querySelector('body');
-        settings.clockMode = "h23";
-        langHandler();
-        updateClockData(weatherData);
-        settings.anim = true;
-        body.classList.remove('no-anim');
+        await langHandler();
+        editFav();
     }
     else {
         if (clockMode === true) {
@@ -63,12 +75,12 @@ function updateClockData() {
         document.querySelectorAll('.cf-sunrise-data').forEach((e) => {
             const sunriseTime = new Date(data.current.sunrise * 1000).toLocaleTimeString('pl-PL', { timeZone: data.timezone, hour: '2-digit', minute: '2-digit', hourCycle: settings.clockMode });
             e.innerHTML = sunriseTime;
-            e.ariaLabel = `Sunrise at: ${sunriseTime}`
+            e.ariaLabel = `${cachedLang.aria['weather-sunrise-at']} ${sunriseTime}`
         });
         document.querySelectorAll('.cf-sunset-data').forEach((e) => {
             const sunsetTime = new Date(data.current.sunset * 1000).toLocaleTimeString('pl-PL', { timeZone: data.timezone, hour: '2-digit', minute: '2-digit', hourCycle: settings.clockMode });
             e.innerHTML = sunsetTime;
-            e.ariaLabel = `Sunset at: ${sunsetTime}`
+            e.ariaLabel = `${cachedLang.aria['weather-sunrise-at']} ${sunsetTime}`
         });
         document.querySelectorAll('.city-time-data').forEach((e) => {
             e.innerHTML = new Date().toLocaleTimeString('pl-PL', { timeZone: data ? data.timezone : "etc/utc", hourCycle: settings.clockMode });
@@ -133,6 +145,7 @@ const langHandler = () => {
 const changeHistory = (searchLocation) => {
     const searchObject = {
         name: searchLocation.name,
+        localNames: searchLocation.local_names,
         lat: searchLocation.lat,
         lon: searchLocation.lon,
         country: searchLocation.country,
@@ -159,6 +172,7 @@ const changeHistory = (searchLocation) => {
 const addToFav = (searchLocation) => {
     const searchObject = {
         name: searchLocation.name,
+        localNames: searchLocation.local_names,
         lat: searchLocation.lat,
         lon: searchLocation.lon,
         country: searchLocation.country,
@@ -180,13 +194,14 @@ const addToFav = (searchLocation) => {
 const editFav = () => {
     let favBoxContent = '';
     favList.forEach((e) => {
+        const locName =  (e.localNames && e.localNames[settings.lang]) || e.name;
         favBoxContent += `<div class="menu-dd-item">
-        <button class="sfd-fav-city menu-dd-item-city col-prim" aria-label="${cachedLang.aria['menu-hist-search'].replace('%loc-name', e.name)}" title="${cachedLang.aria['menu-hist-search'].replace('%loc-name', e.name)}">
+        <button class="sfd-fav-city menu-dd-item-city col-prim" aria-label="${cachedLang.aria['menu-hist-search'].replace('%loc-name', locName)}" title="${cachedLang.aria['menu-hist-search'].replace('%loc-name', locName)}">
             <i class="fi fi-${e.country.toLowerCase()}"></i>
-            <p class="menu-dd-item-loc">${e.name}</p>
+            <p class="menu-dd-item-loc">${locName}</p>
             <h5 class="menu-dd-item-state">${e.state}</h5>
         </button>
-        <button class="bi bi-heartbreak sfd-fav-remove menu-dd-item-remove col-sec menu-dd-nohide" aria-label="${cachedLang.aria['menu-fav-remove'].replace('%loc-name', e.name)}" title="${cachedLang.aria['menu-fav-remove'].replace('%loc-name', e.name)}"></button>
+        <button class="bi bi-heartbreak sfd-fav-remove menu-dd-item-remove col-sec menu-dd-nohide" aria-label="${cachedLang.aria['menu-fav-remove'].replace('%loc-name', locName)}" title="${cachedLang.aria['menu-fav-remove'].replace('%loc-name', locName)}"></button>
     </div>`
     });
     if (favBoxContent == '') {
@@ -217,13 +232,14 @@ const editFav = () => {
 const editHistory = () => {
     let historyBoxContent = '';
     searchHistory.forEach((e) => {
+        const locName =  (e.localNames && e.localNames[settings.lang]) || e.name;
         historyBoxContent += `<div class="menu-dd-item">
-        <button class="menu-dd-history-city menu-dd-item-city col-prim" aria-label="${cachedLang.aria['menu-hist-search'].replace('%loc-name', e.name)}" title="${cachedLang.aria['menu-hist-search'].replace('%loc-name', e.name)}">
+        <button class="menu-dd-history-city menu-dd-item-city col-prim" aria-label="${cachedLang.aria['menu-hist-search'].replace('%loc-name', locName)}" title="${cachedLang.aria['menu-hist-search'].replace('%loc-name', locName)}">
             <i class="fi fi-${e.country.toLowerCase()}"></i>
-            <p class="menu-dd-item-loc">${e.name}</p>
+            <p class="menu-dd-item-loc">${locName}</p>
             <h5 class="menu-dd-item-state">${e.state}</h5>
         </button>
-        <button class="bi bi-trash menu-dd-history-remove menu-dd-item-remove col-sec menu-dd-nohide" aria-label="${cachedLang.aria['menu-hist-remove'].replace('%loc-name', e.name)}" title="${cachedLang.aria['menu-hist-remove'].replace('%loc-name', e.name)}"></button>
+        <button class="bi bi-trash menu-dd-history-remove menu-dd-item-remove col-sec menu-dd-nohide" aria-label="${cachedLang.aria['menu-hist-remove'].replace('%loc-name', locName)}" title="${cachedLang.aria['menu-hist-remove'].replace('%loc-name', locName)}"></button>
     </div>`
     });
     if (historyBoxContent == '') {

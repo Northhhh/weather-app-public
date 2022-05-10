@@ -11,7 +11,7 @@ It allows to check weather for now, next 24 hours and 7 days from (almost) any p
 - A chart containing weather for next 24 hours
 - 3 built-in themes (dark / light / high contrast)
 - 3 measurements systems (metric / imperial / kelvin)
-- 2 serviced languages (English / Polish)
+- 3 serviced languages (English / Polish / German)
 - Search history for last 10 search queries
 - Favourite location list 
 - 12/24 hour clock mode
