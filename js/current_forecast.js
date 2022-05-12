@@ -1,5 +1,6 @@
-import { settings, weatherIcons, cachedLang, airQualityColors, nightWeatherIcons, unitsTypes } from "./read_storage.min.js";
+import { settings, weatherIcons, cachedLang, airQualityColors, nightWeatherIcons, unitsTypes, calcTemp, calcWind } from "./read_storage.min.js";
 
+//function sets current forecast data
 function currentForecast(data) {
     console.log(data);
     const location = data.location;
@@ -15,14 +16,15 @@ function currentForecast(data) {
     const id = weather.weather[0].id;
     const icon = daytime == 'night' ? (nightWeatherIcons.has(id) ? nightWeatherIcons.get(id) : weatherIcons.get(id)) : (weatherIcons.get(id));
 
+    document.querySelector('.cf-weather-desc-data').innerHTML = cachedLang.weather[`desc${weather.weather[0].id}`];
     document.querySelector('.cf-city-info').ariaLabel = `${aria['weather-current-desc']} ${location.name}, ${location.country}`;
-    document.querySelector('.cf-temp-data').innerHTML = Math.floor(weather.temp);
+    document.querySelector('.cf-temp-data').innerHTML = calcTemp(weather.temp, false);
     document.querySelector('.units-temp-data').innerHTML = `${unitsTypes.get(settings.units).temp}`;
-    document.querySelector('.cf-fl-temp-data').innerHTML = cachedLang.generic['weather-temp-feels-like'].replace('%temp', `${Math.round(weather.feels_like)} ${unitsTypes.get(settings.units).temp}`);
+    document.querySelector('.cf-fl-temp-data').innerHTML = cachedLang.generic['weather-temp-feels-like'].replace('%temp', `${calcTemp(weather.feels_like)}`);
     document.querySelector('.city-date-data').innerHTML = date;
     document.querySelector('.cf-humid-data').innerHTML = `${weather.humidity} %`;
     document.querySelector('.cf-cloud-data').innerHTML = `${weather.clouds} %`;
-    document.querySelector('.cf-dewpt-data').innerHTML = `${Math.round(weather.dew_point)} ${unitsTypes.get(settings.units).temp}`;
+    document.querySelector('.cf-dewpt-data').innerHTML = `${calcTemp(weather.dew_point)}`;
     document.querySelector('.cf-wind-deg-data').innerHTML = `${weather.wind_deg == 360 ? 0 : weather.wind_deg} °`;
     for (let [key, value] of Object.entries(pollution.components)) {
         document.querySelectorAll(`.cf-${key}-data`).forEach(e => {
@@ -31,18 +33,14 @@ function currentForecast(data) {
         })
     }
     document.querySelectorAll('.cf-wind-speed-data').forEach((e) => {
-        e.innerHTML = `${weather.wind_speed} ${unitsTypes.get(settings.units).wind_speed}`;
-        e.ariaLabel = `${weather.wind_speed} ${aria[`unit-${unitsTypes.get(settings.units).wind_speed}`]}`
+        e.innerHTML = calcWind(weather.wind_speed);
+        e.ariaLabel = `${calcWind(weather.wind_speed, false)} ${aria[`unit-${unitsTypes.get(settings.units).wind_speed}`]}`
     });
     document.querySelectorAll('.cf-temp').forEach(e => {
-        e.title = e.ariaLabel = aria['weather-temp-desc'].replace('%temp', `${Math.floor(weather.temp)} ${unitsTypes.get(settings.units).temp}`)
+        e.title = e.ariaLabel = aria['weather-temp-desc'].replace('%temp', `${calcTemp(weather.temp)}`)
     })
     document.querySelectorAll('.country-flag-data').forEach((e) => {
         e.classList.forEach((el) => { if (el.startsWith('fi-')) e.classList.replace(el, `fi-${location.country.toLowerCase()}`) });
-    });
-    document.querySelectorAll('.cf-weather-desc-data').forEach((e) => {
-        let w = weather.weather[0].description;
-        e.innerHTML = w[0].toUpperCase() + w.substr(1).toLowerCase();
     });
     document.querySelectorAll('.cf-press-data').forEach(e => {
         e.innerHTML = `${weather.pressure} hPa`;
@@ -115,8 +113,8 @@ function currentForecast(data) {
             e.ariaHidden = false;
         });
         document.querySelectorAll('.cf-wind-gust-data').forEach((e) => {
-            e.innerHTML = `${weather.wind_gust} ${unitsTypes.get(settings.units).wind_speed}`;
-            e.ariaLabel = `${weather.wind_gust} ${aria[`unit-${unitsTypes.get(settings.units).wind_speed}`]}`
+            e.innerHTML = calcWind(weather.wind_gust);
+            e.ariaLabel = `${calcWind(weather.wind_gust)} ${aria[`unit-${unitsTypes.get(settings.units).wind_speed}`]}`
         });
     }
     else {

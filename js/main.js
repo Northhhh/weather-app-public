@@ -48,11 +48,11 @@ let weatherData =
 {
   location: null,
   weather: null,
-  pollution: null,
-  unitsTypes: null
+  pollution: null
 }
 let date = new Date();
 
+//hides specified components
 const hideToggler = (hideList, unhideList) => {
   if (hideList != undefined) {
     !Array.isArray(hideList) ? hideList = new Array(hideList) : null;
@@ -64,6 +64,7 @@ const hideToggler = (hideList, unhideList) => {
   }
 }
 
+//toggles theme depending on user settings
 const themeToggler = () => {
   const weather = (weatherData.weather ? weatherData.weather.current : undefined);
   const clock = new Date();
@@ -75,6 +76,7 @@ const themeToggler = () => {
   else if (settings.theme == 'contrast') main.classList.add('theme-contrast')
 }
 
+//reset search bar and hides unnecessary components
 const resetSearch = () => {
   searchInput.value = '';
   tooltip.classList.replace('col-err', 'col-sec');
@@ -85,10 +87,12 @@ const resetSearch = () => {
   themeToggler();
 }
 
+//fetches location data from user query
 const getLocation = (searchQuery, overwrite, searchCache) => {
   searchInput.value = searchQuery;
+  //checks if there's already cached data which meets requirements (max 10 mins from fetch)
   if (cachedData) {
-    if ((cachedData.location.name == searchQuery & cachedData.unitsTypes == settings.units) & overwrite !== true) {
+    if ((cachedData.location.name == searchQuery) & overwrite !== true) {
       let date = (new Date().getTime()) / 1000;
       if (Math.floor((date - cachedData.weather.current.dt) / 60) < 10) {
         weatherData = cachedData;
@@ -106,6 +110,7 @@ const getLocation = (searchQuery, overwrite, searchCache) => {
     }
   }
 
+  //obtains reverse geocoding data from saved latitude and longitude
   if (searchCache) {
     console.log("New API data fetch from saved lat/lon");
     fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${searchCache.lat}&lon=${searchCache.lon}&limit=1&appid=${API_KEY}`)
@@ -130,6 +135,8 @@ const getLocation = (searchQuery, overwrite, searchCache) => {
       console.log('Input is empty, ignoring');
       return;
     }
+
+    //fetches data from user query
     console.log("New API data fetch from user query");
     fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${searchQuery}&limit=10&appid=${API_KEY}`)
       .then(value => value.json())
@@ -141,6 +148,7 @@ const getLocation = (searchQuery, overwrite, searchCache) => {
             ))
           )
 
+          //if there's more than 1 result for specified query, give user a choice
           if (json.length > 1) {
             document.querySelector('[tkey-gen="menu-loc-desc"]').innerHTML = cachedLang.generic["menu-loc-desc"].replace('%loc-amount', json.length).replace('%loc-phrase', searchQuery)
             menuDropdown.classList.add('dd-opened');
@@ -182,9 +190,10 @@ const getLocation = (searchQuery, overwrite, searchCache) => {
   }
 }
 
+//fetches weather data for specified location
 const getWeatherData = (loc) => {
   Promise.all([
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${loc.lat}&lon=${loc.lon}&exclude=minutely&units=${settings.units}&lang=${settings.lang}&appid=${API_KEY}`).then(value => value.json()),
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${loc.lat}&lon=${loc.lon}&exclude=minutely&units=metric&appid=${API_KEY}`).then(value => value.json()),
     fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${loc.lat}&lon=${loc.lon}&appid=${API_KEY}`).then(value => value.json())
   ]).then(([weather, pollution]) => {
     weather.daily.shift();
@@ -204,6 +213,7 @@ const getWeatherData = (loc) => {
     })
 }
 
+//main function for setting weather data
 const setWeatherData = (weatherData) => {
   let loc = weatherData.location;
   document.querySelector('#radio-result-nav1').checked = true;
@@ -217,7 +227,8 @@ const setWeatherData = (weatherData) => {
   weeklyForecast(weatherData);
 }
 
-const editTimer = () => {
+//clock function
+const clockHandler = () => {
   date = new Date();
   document.querySelector('.city-date-data').innerHTML = date.toLocaleDateString('pl-PL', {
     timeZone: weatherData.weather ? weatherData.weather.timezone : "etc/utc", day: "2-digit", month: "2-digit", year: "numeric"
@@ -226,10 +237,11 @@ const editTimer = () => {
     timeZone: weatherData.weather ? weatherData.weather.timezone : "etc/utc", hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: settings.clockMode
   });
   setTimeout(() => {
-    editTimer();
+    clockHandler();
   }, 1000);
 }
 
+//short function for closing dropdown menu
 const closeDropdown = () => {
   hideToggler([menuDropdownWrapper, menuDropdownHide], [menuHistWrapper, menuNav]);
   [menuDropdown, weekdayWrapper, navbarMobile].forEach(e => e.classList.remove('dd-opened'));
@@ -237,6 +249,7 @@ const closeDropdown = () => {
   isDropdownOpened = false;
 }
 
+//changes focused data card
 function changeCard(cardID, dir) {
   const radios = document.querySelectorAll('[name="radio-result-nav"]');
   if (!cardID) cardID = parseInt(document.querySelector('[name="radio-result-nav"]:checked').value.slice(-1));
@@ -249,15 +262,16 @@ function changeCard(cardID, dir) {
   card.scrollTo({top: 0, behavior:"smooth"});
 }
 
+//changes focused dropdown card
 function changeDropdownCard(cardName) {
   hideToggler(menuDropdownHide, [document.querySelector(`.${cardName}`), menuNav]);
 }
 
 searchInput.addEventListener('change', (e) => {
   getLocation(e.target.value);
-  searchInput.blur();
 })
 
+//opend search dropdown
 searchInput.addEventListener('click', (e) => {
   hideToggler(...Array(1), menuDropdownWrapper);
   menuDropdown.classList.add('dd-opened');
@@ -335,9 +349,7 @@ mobileWeekdayButton.addEventListener('click', () => {
 
 measurementSelect.addEventListener('change', () => {
   editSettings(measurementSelect.value);
-  if (searchInput.value) {
-    getWeatherData(weatherData.location);
-  }
+  if (weatherData) setWeatherData(weatherData);
 });
 
 chartDataSelect.addEventListener('change', () => {
@@ -349,8 +361,8 @@ themeSelect.addEventListener('change', () => {
 })
 
 langSelect.addEventListener('change', async () => {
-  editSettings(...Array(4), langSelect.value);
-  if (weatherData.location != null) getWeatherData(weatherData.location);
+  await editSettings(...Array(4), langSelect.value);
+  if (weatherData.location != null) setWeatherData(weatherData);
 })
 
 for (let button of resultNavRadio) {
@@ -391,7 +403,7 @@ window.addEventListener('load', async () => {
   themeSelect.value = settings.theme;
   langSelect.value = settings.lang;
   await langHandler();
-  editTimer();
+  clockHandler();
   editHistory();
   editFav();
   if (cachedData) {

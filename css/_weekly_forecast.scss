@@ -43,6 +43,7 @@
         .wf-wrapper
         {
             @include flex();
+            width: 100%;
             align-self: center;
         }
 
@@ -60,17 +61,17 @@
         {
             & + label::after
             {
-                transform: scale(0);
+                transform: scaleY(0);
             }
 
             &:checked+label::after {
-                transform: scale(1);
+                transform: scaleY(1);
             }
         }
     }
 
     @include flex($dir: column, $align: flex-start);
-    width: auto;
+    width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
 

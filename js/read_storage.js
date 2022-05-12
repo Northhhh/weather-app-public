@@ -1,6 +1,7 @@
 import { getLocation, themeToggler, weatherData } from './main.min.js';
-const langVersion = 5; //for checking if cached language is up to date
+const langVersion = 6; //for checking if cached language is up to date
 const availableLang = ['en', 'pl', 'de'];
+
 let cachedData = localStorage.getItem('cachedData') ? JSON.parse(localStorage.getItem('cachedData')) : null;
 let cachedLang = localStorage.getItem('cachedLang') ? JSON.parse(localStorage.getItem('cachedLang')) : null;
 let searchHistory = localStorage.getItem('searchHistory') ? JSON.parse(localStorage.getItem('searchHistory')) : [];
@@ -13,10 +14,25 @@ const nightWeatherIcons = new Map([[800, 'bi-moon-stars'], [801, 'bi-cloud-moon'
 
 const unitsTypes = new Map([['metric', { 'temp': '°C', 'wind_speed': 'm/s', 'pressure': 'hPa', 'humidity': '%' }], ['imperial', { 'temp': '°F', 'wind_speed': 'mph', 'pressure': 'hPa', 'humidity': '%' }], ['default', { 'temp': 'K', 'wind_speed': 'm/s', 'pressure': 'hPa', 'humidity': '%' }]]);
 
-const chartLimits = new Map([['metric', { 'temp': [0, 30], 'wind_speed': [0, 5.6], 'pressure': [950, 1000], 'humidity': [0, 100] }], ['imperial', { 'temp': [0, 86], 'wind_speed': [0, 12], 'pressure': [950, 1000], 'humidity': [0, 100] }], ['default', { 'temp': [243, 303], 'wind_speed': [0, 5.6], 'pressure': [950, 1000], 'humidity': [0, 100] }]]);
- 
+const chartLimits = new Map([['metric', { 'temp': [0, 30], 'wind_speed': [0, 5.6], 'pressure': [950, 1000], 'humidity': [0, 100] }], ['imperial', { 'temp': [0, 86], 'wind_speed': [0, 12], 'pressure': [950, 1000], 'humidity': [0, 100] }], ['default', { 'temp': [273, 303], 'wind_speed': [0, 5.6], 'pressure': [950, 1000], 'humidity': [0, 100] }]]);
 const airQualityColors = ['#007a06', '#02b13c', '#db9c14', '#db8b2f', '#ce5252'];
 
+//calculates temperature from celsius to other units
+const calcTemp = (temp, units = true) => {
+    const system = settings.units;
+    if (system == 'metric') return `${Math.round(temp)}${units === true ? " °C" : ""}`;
+    if (system == 'imperial') return `${Math.round((temp * 1.8) + 32)}${units === true ? " °F" : ""}`;
+    if (system == 'default') return `${Math.round(temp + 273)}${units === true ? " K" : ""}`;
+}
+
+//calculates wind from mps to other units
+const calcWind = (wind, units = true) => {
+    const system = settings.units;
+    if (system == 'imperial') return `${(wind * 2.236936).toFixed(2)}${units === true ? " mph" : ""}`;
+    else return `${wind}${units === true ? " m/s" : ""}`;
+}
+
+//function to editing settings
 const editSettings = async (units, clockMode, anim, theme, lang, reset) => {
     if (reset === true) {
         let body = document.querySelector('body');
@@ -58,8 +74,10 @@ const editSettings = async (units, clockMode, anim, theme, lang, reset) => {
     }
     console.log(settings);
     localStorage.setItem('userSettings', JSON.stringify(settings));
+    return;
 }
 
+//updater for 12- and 24-hour clock
 function updateClockData() {
     const data = weatherData.weather;
     if (data != null) {
@@ -90,11 +108,12 @@ function updateClockData() {
             const time = new Date(d.dt * 1000).toLocaleTimeString('pl-PL', { timeZone: data.timezone, hour: '2-digit', minute: '2-digit', hourCycle: settings.clockMode });
 
             e.innerHTML = time;
-            chartColumns[i].ariaLabel = `${dataSelect[dataSelect.selectedIndex].text} at ${time}: ${dataType == 'temp' ? Math.round(d[dataType]) : d[dataType]} ${unitsTypes.get(settings.units)[dataType]}`;
+            chartColumns[i].ariaLabel = `${dataSelect[dataSelect.selectedIndex].text} at ${time}: ${dataType == 'temp' ? calcTemp(d[dataType], false) : d[dataType]} ${unitsTypes.get(settings.units)[dataType]}`;
         })
     }
 }
 
+//fetches language files and sets obtained data
 const langHandler = () => {
     return new Promise(res => {
         let lang;
@@ -142,6 +161,7 @@ const langHandler = () => {
     })
 }
 
+//edits history list
 const changeHistory = (searchLocation) => {
     const searchObject = {
         name: searchLocation.name,
@@ -169,6 +189,7 @@ const changeHistory = (searchLocation) => {
     localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
 }
 
+//edits favourite list
 const addToFav = (searchLocation) => {
     const searchObject = {
         name: searchLocation.name,
@@ -191,6 +212,7 @@ const addToFav = (searchLocation) => {
     editFav();
 }
 
+//change displayed favourite list
 const editFav = () => {
     let favBoxContent = '';
     favList.forEach((e) => {
@@ -229,6 +251,7 @@ const editFav = () => {
     }
 }
 
+//changes displayed history list
 const editHistory = () => {
     let historyBoxContent = '';
     searchHistory.forEach((e) => {
@@ -264,9 +287,10 @@ const editHistory = () => {
     }
 }
 
+//saves weather data to cache
 const cacheData = (newData) => {
     cachedData = newData;
     localStorage.setItem('cachedData', JSON.stringify(newData));
 }
 
-export { cachedData, searchHistory, settings, favList, airQualityColors, nightWeatherIcons, weatherIcons, unitsTypes, chartLimits, cachedLang, cacheData, langHandler, changeHistory, editSettings, editHistory, editFav, addToFav };
+export { cachedData, searchHistory, settings, favList, airQualityColors, nightWeatherIcons, weatherIcons, unitsTypes, chartLimits, cachedLang, cacheData, langHandler, changeHistory, editSettings, editHistory, editFav, addToFav, calcTemp, calcWind };

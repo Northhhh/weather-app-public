@@ -204,13 +204,13 @@ header {
         .menu-dd-item {
             &::after {
 
-                transform: scale(0);
+                transform: scaleY(0);
             }
 
             &:hover,
             &:focus {
                 &::after {
-                    transform: scale(1);
+                    transform: scaleY(1);
                 }
             }
         }

@@ -10,7 +10,7 @@
     box-shadow: 0 3px 5px rgba(133, 133, 133, 0.75);
   }
   .theme-night .menu-dd, .theme-night .wf-weekday-nav {
-    background-color: #170d3c; 
+    background-color: #170d3c;
   }
   .theme-night .menu-search-wrapper {
     background: linear-gradient(90deg, rgba(29, 17, 99, 0.7) 0%, rgba(63, 94, 251, 0) 50%);
@@ -634,8 +634,7 @@ header {
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-rows: auto 1fr;
-    grid-template-areas: "a a"
- "b c";
+    grid-template-areas: "a a" "b c";
   }
   header .menu-search-wrapper h5 {
     grid-area: a;
@@ -743,10 +742,10 @@ header {
     display: block;
   }
   header .menu-dd-item::after {
-    transform: scale(0);
+    transform: scaleY(0);
   }
   header .menu-dd-item:hover::after, header .menu-dd-item:focus::after {
-    transform: scale(1);
+    transform: scaleY(1);
   }
   header .menu-dd-fav-wrapper {
     display: flex;
@@ -1814,8 +1813,7 @@ input[type="text"]:focus {
   height: auto;
   overflow-x: hidden;
   overflow-y: hidden;
-  grid-template-areas: "scale chart"
- ". chart";
+  grid-template-areas: "scale chart" ". chart";
   padding: 20px;
 }
 
@@ -1837,8 +1835,7 @@ input[type="text"]:focus {
   height: max-content;
   display: grid;
   grid-template-rows: 30vh 1fr;
-  grid-template-areas: "columns"
- "data";
+  grid-template-areas: "columns" "data";
 }
 
 .daily-forecast .df-chart-container .df-chart-wrapper::-webkit-scrollbar {
@@ -1928,7 +1925,7 @@ input[type="text"]:focus {
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: flex-start;
-  width: auto;
+  width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -1975,6 +1972,7 @@ input[type="text"]:focus {
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: stretch;
+    width: 100%;
     align-self: center;
   }
   .weekly-forecast .wf-weekday-card {
@@ -1984,10 +1982,10 @@ input[type="text"]:focus {
     background-color: rgba(255, 255, 255, 0.5);
   }
   .weekly-forecast input[type="radio"] + label::after {
-    transform: scale(0);
+    transform: scaleY(0);
   }
   .weekly-forecast input[type="radio"]:checked + label::after {
-    transform: scale(1);
+    transform: scaleY(1);
   }
 }
 
@@ -2040,8 +2038,7 @@ input[type="text"]:focus {
   column-gap: 5px;
   padding: 5px 10px;
   transition: background-color .5s;
-  grid-template-areas: "icon weekday temp"
- "icon date temp";
+  grid-template-areas: "icon weekday temp" "icon date temp";
 }
 
 .weekly-forecast .wf-weekday-nav .wf-weekday-card .wf-card-weekday-weather-icon {
