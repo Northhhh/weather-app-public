@@ -1,7 +1,7 @@
 let API_KEY;
 //imports
 import { currentForecast } from './current_forecast.min.js';
-import { settings, cacheData, cachedLang, cachedData, changeHistory, editHistory, editSettings, addToFav, favList, editFav, langHandler } from './read_storage.min.js';
+import { settings, cacheData, cachedLang, cachedData, changeHistory, displayHistory, editSettings, addToFav, favList, displayFavourite, langHandler } from './read_storage.min.js';
 import { dailyForecast } from './daily_forecast.min.js';
 import { weeklyForecast, setCardData } from './weekly_forecast.min.js';
 
@@ -127,6 +127,7 @@ const getLocation = (searchQuery, overwrite, searchCache) => {
       .catch((e) => {
         tooltip.classList.replace('col-sec', 'col-err');
         tooltip.innerHTML = `<i class="bi bi-cloud-slash"></i><br>${e.message[0].toUpperCase() + e.message.substr(1)}`;
+        closeDropdown();
         hideToggler(resultBox, tooltip);
       })
   }
@@ -185,6 +186,7 @@ const getLocation = (searchQuery, overwrite, searchCache) => {
       .catch((e) => {
         tooltip.classList.replace('col-sec', 'col-err');
         tooltip.innerHTML = `<i class="bi bi-cloud-slash"></i><br>${e.message[0].toUpperCase() + e.message.substr(1)}`;
+        closeDropdown();
         hideToggler(resultBox, tooltip);
       })
   }
@@ -209,6 +211,7 @@ const getWeatherData = (loc) => {
     .catch((e) => {
       tooltip.classList.replace('col-sec', 'col-err');
       tooltip.innerHTML = `<i class="bi bi-cloud-slash"></i><br>${e.message[0].toUpperCase() + e.message.substr(1)}`;
+      closeDropdown();
       hideToggler(resultBox, tooltip);
     })
 }
@@ -404,8 +407,8 @@ window.addEventListener('load', async () => {
   langSelect.value = settings.lang;
   await langHandler();
   clockHandler();
-  editHistory();
-  editFav();
+  displayHistory();
+  displayFavourite();
   if (cachedData) {
     let name = cachedData.location.name;
     getLocation(name);

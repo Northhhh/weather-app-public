@@ -38,8 +38,8 @@ const editSettings = async (units, clockMode, anim, theme, lang, reset) => {
         let body = document.querySelector('body');
         settings = { units: 'metric', clockMode: 'h23', anim: true, theme: 'default', lang: (navigator.languages.filter(value => availableLang.includes(value))).shift() || 'en'};
         await langHandler();
-        editHistory();
-        editFav();
+        displayHistory();
+        displayFavourite();
         document.querySelector('.checkbox-no-anim').checked = document.querySelector('.checkbox-clock-mode').checked = false;
         document.querySelector('[name="select-measurement-units"]').value = settings.units;
         document.querySelector('[name="select-theme"]').value = settings.theme;
@@ -59,7 +59,7 @@ const editSettings = async (units, clockMode, anim, theme, lang, reset) => {
     if (lang) {
         settings.lang = lang;
         await langHandler();
-        editFav();
+        displayFavourite();
     }
     else {
         if (clockMode === true) {
@@ -185,7 +185,7 @@ const changeHistory = (searchLocation) => {
     }
 
     console.log(searchHistory);
-    editHistory();
+    displayHistory();
     localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
 }
 
@@ -209,11 +209,11 @@ const addToFav = (searchLocation) => {
     }
 
     localStorage.setItem('favList', JSON.stringify(favList));
-    editFav();
+    displayFavourite();
 }
 
 //change displayed favourite list
-const editFav = () => {
+const displayFavourite = () => {
     let favBoxContent = '';
     favList.forEach((e) => {
         const locName =  (e.localNames && e.localNames[settings.lang]) || e.name;
@@ -245,14 +245,15 @@ const editFav = () => {
                 if (weatherData.location.name == favList[i].name) document.querySelector('.button-sfd-add-fav').classList.remove('box-hidden');
                 favList.splice(i, 1);
                 localStorage.setItem('favList', JSON.stringify(favList));
-                editFav();
+                displayFavourite();
             })
         });
     }
 }
 
 //changes displayed history list
-const editHistory = () => {
+const displayHistory = () => {
+    console.log(searchHistory);
     let historyBoxContent = '';
     searchHistory.forEach((e) => {
         const locName =  (e.localNames && e.localNames[settings.lang]) || e.name;
@@ -265,12 +266,10 @@ const editHistory = () => {
         <button class="bi bi-trash menu-dd-history-remove menu-dd-item-remove col-sec menu-dd-nohide" aria-label="${cachedLang.aria['menu-hist-remove'].replace('%loc-name', locName)}" title="${cachedLang.aria['menu-hist-remove'].replace('%loc-name', locName)}"></button>
     </div>`
     });
-    if (historyBoxContent == '') {
-        document.querySelector('.shd-desc').innerHTML = cachedLang.generic['menu-hist-desc-empty']
-    }
+    document.querySelector('.shd-wrapper').innerHTML = historyBoxContent;
+    if (historyBoxContent == '') document.querySelector('.shd-desc').innerHTML = cachedLang.generic['menu-hist-desc-empty']
     else {
         document.querySelector('.shd-desc').innerHTML = cachedLang.generic['menu-hist-desc']
-        document.querySelector('.shd-wrapper').innerHTML = historyBoxContent;
         document.querySelectorAll('.menu-dd-history-city').forEach((e, i) => {
             e.addEventListener('click', () => {
                 getLocation(searchHistory[i].name, false, searchHistory[i]);
@@ -279,12 +278,14 @@ const editHistory = () => {
 
         document.querySelectorAll('.menu-dd-history-remove').forEach((e, i) => {
             e.addEventListener('click', () => {
+                console.log('test');
                 searchHistory.splice(i, 1);
                 localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-                editHistory();
+                displayHistory();
             })
         });
     }
+    console.log(historyBoxContent);
 }
 
 //saves weather data to cache
@@ -293,4 +294,4 @@ const cacheData = (newData) => {
     localStorage.setItem('cachedData', JSON.stringify(newData));
 }
 
-export { cachedData, searchHistory, settings, favList, airQualityColors, nightWeatherIcons, weatherIcons, unitsTypes, chartLimits, cachedLang, cacheData, langHandler, changeHistory, editSettings, editHistory, editFav, addToFav, calcTemp, calcWind };
+export { cachedData, searchHistory, settings, favList, airQualityColors, nightWeatherIcons, weatherIcons, unitsTypes, chartLimits, cachedLang, cacheData, langHandler, changeHistory, editSettings, displayHistory, displayFavourite, addToFav, calcTemp, calcWind };
